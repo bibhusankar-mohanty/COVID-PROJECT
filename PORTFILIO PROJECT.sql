@@ -1,10 +1,10 @@
-SELECT * FROM COVID_DEATH
-SELECT * FROM COVID_VACCINATION
+SELECT * FROM COVID_DEATH;
+SELECT * FROM COVID_VACCINATION;
 --DETERMINE THE DEATH PERCENTAGE.
 SELECT location,date,total_cases,total_deaths,(total_deaths/total_cases)*100 as deathpercentage
 from COVID_DEATH
 where location like '%India%'
-order by (total_cases)asc
+order by (total_cases)asc;
 
 --TOTAL POPULATION INFECTED.
 SELECT location,date,total_cases,population,(total_cases/population)*100 as populationinfected
@@ -47,6 +47,21 @@ from COVID_DEATH
 where continent is not null
 --group by date
 order by 1,2;
+
+--TO DETERMINE THE VACCINATION DETAILS.
+Select dea.continent, dea.location, dea.date, dea.population
+, MAX(vac.total_vaccinations) as RollingPeopleVaccinated
+--, (RollingPeopleVaccinated/population)*100
+From COVID_DEATH dea
+Join COVID_VACCINATION vac
+	On dea.location = vac.location
+	and dea.date = vac.date
+where dea.continent is not null 
+group by dea.continent, dea.location, dea.date, dea.population
+order by 1,2,3;
+
+
+
 
 
 
